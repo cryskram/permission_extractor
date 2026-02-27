@@ -7,6 +7,7 @@ import tempfile
 
 ANDROID_NS = "{http://schemas.android.com/apk/res/android}"
 
+
 def extract_permissions(manifest_path):
     tree = ET.parse(manifest_path)
     root = tree.getroot()
@@ -19,6 +20,7 @@ def extract_permissions(manifest_path):
 
     return sorted(perms)
 
+
 def main(apk_path):
     if not os.path.exists(apk_path):
         print(f"APK not found: {apk_path}")
@@ -28,7 +30,7 @@ def main(apk_path):
         result = subprocess.run(
             ["apktool", "d", "-f", apk_path, "-o", temp_dir],
             capture_output=True,
-            text=True
+            text=True,
         )
 
         print("STDOUT:\n", result.stdout)
@@ -50,10 +52,7 @@ def main(apk_path):
 
         permissions = extract_permissions(manifest_path)
 
-        print(json.dumps({
-            "apk": apk_path,
-            "permissions": permissions
-        }, indent=2))
+        print(json.dumps({"apk": apk_path, "permissions": permissions}, indent=2))
 
 
 if __name__ == "__main__":
